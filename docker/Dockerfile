@@ -1,35 +1,21 @@
-###############################################################################
-# Nginx
-###############################################################################
+FROM splintnet/alpine-php:latest
 
-FROM nginx:alpine as nginx
-LABEL maintainer="j.imping@5-anker.com"
+# Copy our contao files into the container
+COPY app /application/app
+COPY config /application/config
+COPY contao /application/contao
+COPY src /application/src
+COPY ["composer.json", "composer.lock", "/application/"]
+# add our startup script
+COPY bootstrap.sh /
 
-WORKDIR /application
+# make the startup script executable
+RUN chmod +x /bootstrap.sh
+# run composer install on container build
+RUN cd /application && composer install
 
-COPY docker/config/nginx.conf /etc/nginx/conf.d/default.conf
+# Register volumes
+VOLUME [ "/application", "/application/files", "/application/var/logs", "/application/assets" ]
 
-
-###############################################################################
-# PHP
-###############################################################################
-
-FROM registry.5-anker.com/5anker/docker-base/php:latest as contao
-LABEL maintainer="j.imping@5-anker.com"
-
-WORKDIR /application
-
-COPY --chown=www-data:www-data composer.phar composer.json composer.lock ./
-COPY --chown=www-data:www-data bundles ./bundles
-
-COPY docker/config/php.ini /usr/local/etc/php/conf.d/docker.ini
-
-
-RUN chown www-data:www-data .
-USER www-data
-RUN php composer.phar install --no-scripts --no-autoloader --no-dev
-
-COPY --chown=www-data:www-data . .
-COPY --chown=www-data:www-data .env.example .env
-
-RUN php composer.phar dump-autoload && php composer.phar run-script post-install-cmd
+# Set boostrap.sh as entrypoint
+CMD ["/bootstrap.sh"]

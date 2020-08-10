@@ -8,7 +8,7 @@ vendor/bin/contao-console cache:clear
 chown -R www-data: /application
 
 # Start the PHP-FPM process
-php-fpm7
+php-fpm
 status=$?
 if [ $status -ne 0 ]; then
     echo "Failed to start php-fpm: $status"

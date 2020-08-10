@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  contao:
+    image: splintnet/dockerized-contao
+    volumes:
+      - "web:/application/web"
+      - "files:/application/files"
+      - "logs:/sapplicationrv/var/logs"
+      - "assets:/application/assets"
+    external_links:
+      - db
+    networks:
+      - db
+      - traefik
+
+  nginx:
+    image: nginx
+    volumes:
+      - web:/application
+    networks:
+      traefik:
+    # labels:
+      # - "traefik.enable=true"
+      # - "traefik.http.routers.contao.rule=Host(`your-site.com`)"
+      # - "traefik.http.routers.contao.tls.certresolver=myhttpchallenge"
+      # - "traefik.http.routers.contao.entrypoints=websecure"
+      # - "traefik.http.routers.contao.tls=true"
+
+volumes:
+  web:
+  files:
+  logs:
+  assets:
+
+networks:
+  db:
+    external: true
+  traefik:
+    external: true

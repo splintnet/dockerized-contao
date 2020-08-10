@@ -1,0 +1,38 @@
+{
+    "name": "splintnet/dockerized-contao",
+    "type": "project",
+    "description": "Contao Open Source CMS",
+    "license": "proprietary",
+    "authors": [{
+        "name": "Jonas Imping",
+        "homepage": "https://github.com/splintnet"
+    }],
+    "require": {
+        "php": ">=7.3",
+        "contao/calendar-bundle": "^4.9",
+        "contao/comments-bundle": "^4.9",
+        "contao/conflicts": "@dev",
+        "contao/faq-bundle": "^4.9",
+        "contao/listing-bundle": "^4.9",
+        "contao/manager-bundle": "^4.9",
+        "contao/news-bundle": "^4.9",
+        "contao/newsletter-bundle": "^4.9",
+        "splintnet/awesome-contao-bundle": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "extra": {
+        "contao-component-dir": "assets"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Contao\\ManagerBundle\\Composer\\ScriptHandler::initializeApplication"
+        ],
+        "post-update-cmd": [
+            "Contao\\ManagerBundle\\Composer\\ScriptHandler::initializeApplication"
+        ]
+    }
+}

@@ -1,0 +1,38 @@
+contao:
+  prepend_locale: '%env(bool:PREPEND_LOCALE)%'
+  url_suffix: ""
+  localconfig:
+    licenseAccepted: true
+    enableSearch: false
+    disableCron: true
+    folderUrl: true
+
+    installPassword: "%env(INSTALL_PASSWORD)%"
+    adminEmail: "%env(ADMIN_EMAIL)%"
+    dateFormat: "d.m.Y"
+    datimFormat: "d.m.Y H:i"
+    timeZone: "Europe/Berlin"
+
+    # Adjust the upload image settings
+    maxFileSize: 20480000
+    imageWidth: 2500
+    imageHeight: 2500
+
+terminal42_url_rewrite:
+  backend_management: true
+nelmio_security:
+  clickjacking:
+    paths:
+      "^/.*": ALLOW
+
+framework:
+  secret: "%env(APP_SECRET)%"
+
+doctrine:
+  dbal:
+    connections:
+      default:
+        url: "mysql://%env(DATABASE_USER)%:%env(DATABASE_PASSWORD)%@%env(DATABASE_HOST)%:3306/%env(DATABASE_NAME)%"
+
+imports:
+  - { resource: services.yml }

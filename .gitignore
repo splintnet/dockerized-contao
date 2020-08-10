@@ -1,0 +1,12 @@
+/assets
+/files
+/system
+/var
+/vendor
+/web/*
+!/web/robots.txt
+!/web/favicon.ico
+.env
+.idea
+.vscode
+npm-debug.log

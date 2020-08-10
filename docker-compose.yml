@@ -7,6 +7,7 @@ services:
       - app:/application
       - ./.env:/application/.env
       - ./files:/application/files
+      - ./templates:/application/templates
       - ./logs:/application/var/logs
       - assets:/application/assets
       - share:/application/share

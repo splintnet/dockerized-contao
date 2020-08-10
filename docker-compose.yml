@@ -4,9 +4,9 @@ services:
   contao:
     image: splintnet/dockerized-contao
     volumes:
-      - "web:/application/web"
+      - "app:/application"
       - "files:/application/files"
-      - "logs:/sapplicationrv/var/logs"
+      - "logs:/application/var/logs"
       - "assets:/application/assets"
     external_links:
       - db
@@ -17,8 +17,8 @@ services:
   nginx:
     image: nginx:alpine
     volumes:
-      - web:/application
-      - docker/config/nginx.conf:/etc/nginx/conf.d/default.conf
+      - app:/application
+      - ./docker/config/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       traefik:
     # labels:
@@ -29,7 +29,7 @@ services:
       # - "traefik.http.routers.contao.tls=true"
 
 volumes:
-  web:
+  app:
   files:
   logs:
   assets:

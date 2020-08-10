@@ -13,7 +13,7 @@ COPY bootstrap.sh /
 # make the startup script executable
 RUN chmod +x /bootstrap.sh
 # run composer install on container build
-RUN cd /application && composer install
+RUN cd /application && composer install && rm /application/.env
 
 # Register volumes
 VOLUME [ "/application", "/application/files", "/application/var/logs", "/application/assets" ]

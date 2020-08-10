@@ -5,6 +5,7 @@ COPY app /application/app
 COPY config /application/config
 COPY contao /application/contao
 COPY src /application/src
+COPY .env.example /application/.env
 COPY ["composer.json", "composer.lock", "/application/"]
 # add our startup script
 COPY bootstrap.sh /

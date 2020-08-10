@@ -15,6 +15,12 @@ RUN chmod +x /bootstrap.sh
 # run composer install on container build
 RUN cd /application && composer install && rm /application/.env
 
+# Link the console cmd
+RUN ln -s /application/vendor/bin/contao-console /usr/bin/contao
+
+# Install Contao Manager
+RUN curl -o /application/web/contao-manager.phar.php -L https://download.contao.org/contao-manager.phar
+
 # Register volumes
 VOLUME [ "/application", "/application/files", "/application/var/logs", "/application/assets" ]
 

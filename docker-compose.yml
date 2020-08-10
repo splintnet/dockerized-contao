@@ -4,10 +4,12 @@ services:
   contao:
     image: splintnet/dockerized-contao
     volumes:
-      - "app:/application"
-      - "files:/application/files"
-      - "logs:/application/var/logs"
-      - "assets:/application/assets"
+      - app:/application
+      - ./.env:/application/.env
+      - ./files:/application/files
+      - ./logs:/application/var/logs
+      - assets:/application/assets
+      - share:/application/share
     external_links:
       - db
     networks:
@@ -17,8 +19,14 @@ services:
   nginx:
     image: nginx:alpine
     volumes:
-      - app:/application
       - ./docker/config/nginx.conf:/etc/nginx/conf.d/default.conf
+      - app:/application
+      - ./.env:/application/.env
+      - ./files:/application/files
+      - assets:/application/assets
+      - share:/application/share
+    depends_on:
+      - contao
     networks:
       traefik:
     # labels:
@@ -30,9 +38,8 @@ services:
 
 volumes:
   app:
-  files:
-  logs:
   assets:
+  share:
 
 networks:
   db:

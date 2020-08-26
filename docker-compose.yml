@@ -4,13 +4,16 @@ services:
   contao:
     image: splintnet/dockerized-contao
     volumes:
-      - app:/application
+      - vendor:/application/vendor
+      - web:/application/web
+      - system:/application/system
+      - bundles:/application/bundles
+      - assets:/application/assets
+      - share:/application/share
       - ./.env:/application/.env
       - ./files:/application/files
       - ./templates:/application/templates
       - ./logs:/application/var/logs
-      - assets:/application/assets
-      - share:/application/share
     external_links:
       - db
     networks:
@@ -21,11 +24,13 @@ services:
     image: nginx:alpine
     volumes:
       - ./docker/config/nginx.conf:/etc/nginx/conf.d/default.conf
-      - app:/application
-      - ./.env:/application/.env
-      - ./files:/application/files
-      - assets:/application/assets
-      - share:/application/share
+      - vendor:/application/vendor:ro
+      - web:/application/web:ro
+      - system:/application/system:ro
+      - bundles:/application/bundles:ro
+      - assets:/application/assets:ro
+      - share:/application/share:ro
+      - ./files:/application/files:ro
     depends_on:
       - contao
     networks:
@@ -38,7 +43,10 @@ services:
       # - "traefik.http.routers.contao.tls=true"
 
 volumes:
-  app:
+  vendor:
+  web:
+  system:
+  bundles:
   assets:
   share:
 
